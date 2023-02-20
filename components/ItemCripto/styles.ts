@@ -1,8 +1,5 @@
-/* eslint-disable prettier/prettier */
 import styled from 'styled-components/native';
-
-import { theme } from '../../utils/theme';
-
+import {theme} from '../../utils/theme';
 
 export const CriptoContainer = styled.View`
   flex-direction: row;
@@ -12,7 +9,7 @@ export const CriptoContainer = styled.View`
   padding: 20px 0 20px 0;
   border-bottom-width: 1px;
   border-bottom-style: solid;
-  border-bottom-color: ${theme.colors.grey}
+  border-bottom-color: ${theme.colors.grey};
 `;
 
 export const SeconContainer = styled.View`
@@ -27,13 +24,14 @@ export const CriptoName = styled.Text`
   color: ${theme.colors.black};
 `;
 
-export const CriptoPercentageRed = styled.Text`
-  color: ${theme.colors.red}
+interface CriptoPercentageProps {
+  color: string;
+}
+export const CriptoPercentage = styled.Text<CriptoPercentageProps>`
+  color: ${props => props.color}
   text-align: right;
 `;
 
-export const CriptoPercentageGreen = styled.Text`
-  color: ${theme.colors.green}
-  text-align: right;
+export const ImageArrow = styled.Image`
+  margin-right: 4px;
 `;
-

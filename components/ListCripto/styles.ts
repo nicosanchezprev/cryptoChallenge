@@ -1,7 +1,5 @@
-/* eslint-disable prettier/prettier */
 import styled from 'styled-components/native';
-
-import { theme } from '../../utils/theme';
+import {theme} from '../../utils/theme';
 
 export const Nav = styled.View`
   background-color: ${theme.colors.blue};
@@ -29,6 +27,3 @@ export const PressableAddText = styled.Text`
   font-weight: 500;
   font-size: 16px;
 `;
-
-
-
