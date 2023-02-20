@@ -3,10 +3,8 @@ import React from 'react';
 
 import Criptotracker from './components/Criptotracker/Criptotracker';
 
-function App(): JSX.Element {
-  return (
+const App(): JSX.Element = () => (
     <Criptotracker />
-  );
-}
+);
 
 export default App;
