@@ -12,7 +12,7 @@ const DataCripto: DataCriptoInfo[] = [
     symbol: 'BTC',
     price: '$7,215.68',
     percentage: 1.82,
-    img: require('../assets/img/bitcoin.png'),
+    img: require('../../assets/img/bitcoin.png'),
   },
   {
     id: '2',
@@ -20,7 +20,7 @@ const DataCripto: DataCriptoInfo[] = [
     symbol: 'ETH',
     price: '$146.83',
     percentage: 1.46,
-    img: require('../assets/img/ethereum.png'),
+    img: require('../../assets/img/ethereum.png'),
   },
   {
     id: '3',
@@ -28,7 +28,7 @@ const DataCripto: DataCriptoInfo[] = [
     symbol: 'XRP',
     price: '$0.220568',
     percentage: -2.47,
-    img: require('../assets/img/xrp.png'),
+    img: require('../../assets/img/xrp.png'),
   },
 ];
 
@@ -41,7 +41,7 @@ const ListCripto = ({setModal}: ListCriptoProps) => (
       <>
         <Nav>
           <Title>CryptoTracker Pro</Title>
-          <Image source={require('../assets/img/avatar.png')} />
+          <Image source={require('../../assets/img/avatar.png')} />
         </Nav>
       </>
     }

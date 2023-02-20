@@ -24,12 +24,12 @@ const ItemCripto = ({item}: ItemCriptoProps) => (
       <CriptoName>{item.price}</CriptoName>
       {item.percentage > 0 ? (
         <CriptoPercentage color={theme.colors.green}>
-          <ImageArrow source={require('../assets/img/greenarrow.png')} />
+          <ImageArrow source={require('../../assets/img/greenarrow.png')} />
           {item.percentage + '%'}
         </CriptoPercentage>
       ) : (
         <CriptoPercentage color={theme.colors.red}>
-          <ImageArrow source={require('../assets/img/redarrow.png')} />
+          <ImageArrow source={require('../../assets/img/redarrow.png')} />
           {Math.abs(item.percentage) + '%'}
         </CriptoPercentage>
       )}
