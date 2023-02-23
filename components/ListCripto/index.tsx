@@ -38,19 +38,15 @@ const ListCripto = ({setModal}: ListCriptoProps) => (
     renderItem={({item}) => <ItemCripto item={item} />}
     keyExtractor={({id}) => id}
     ListHeaderComponent={
-      <>
-        <Nav>
-          <Title>CryptoTracker Pro</Title>
-          <Image source={require('../../assets/img/avatar.png')} />
-        </Nav>
-      </>
+      <Nav>
+        <Title>CryptoTracker Pro</Title>
+        <Image source={require('../../assets/img/avatar.png')} />
+      </Nav>
     }
     ListFooterComponent={
-      <>
-        <PressableAdd onPress={() => setModal(true)}>
-          <PressableAddText>+ Add a Cryptocurrency</PressableAddText>
-        </PressableAdd>
-      </>
+      <PressableAdd onPress={() => setModal(true)}>
+        <PressableAddText>+ Add a Cryptocurrency</PressableAddText>
+      </PressableAdd>
     }
   />
 );

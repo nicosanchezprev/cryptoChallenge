@@ -21,7 +21,7 @@ const ItemCripto = ({item}: ItemCriptoProps) => (
     </SeconContainer>
     <View>
       <CriptoName>{item.price}</CriptoName>
-      <CriptoPercentage color={item.percentage > 0 ? true : false}>
+      <CriptoPercentage color={item.percentage > 0}>
         <ImageArrow
           source={
             item.percentage > 0
@@ -29,7 +29,7 @@ const ItemCripto = ({item}: ItemCriptoProps) => (
               : require('../../assets/img/redarrow.png')
           }
         />
-        {item.percentage + '%'}
+        {Math.abs(item.percentage) + '%'}
       </CriptoPercentage>
     </View>
   </CriptoContainer>
