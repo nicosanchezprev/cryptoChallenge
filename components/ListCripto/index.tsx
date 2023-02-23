@@ -1,58 +1,51 @@
-import React from 'react';
-import {FlatList, Image} from 'react-native';
-import {DataCriptoInfo, ListCriptoProps} from '../../utils/interfaces';
+import React, {useEffect} from 'react';
+import {Alert, FlatList, Image} from 'react-native';
+import {ListCriptoProps} from '../../utils/interfaces';
 import {Nav, PressableAdd, PressableAddText, Title} from './styles';
-
+import {useAppDispatch, useAppSelector} from '../../redux/hooks/hooks';
 import ItemCripto from '../ItemCripto';
+import {cleanError} from '../../redux/reducersComp/cryptosSlice';
 
-const DataCripto: DataCriptoInfo[] = [
-  {
-    id: '1',
-    name: 'Bitcoin',
-    symbol: 'BTC',
-    price: '$7,215.68',
-    percentage: 1.82,
-    img: require('../../assets/img/bitcoin.png'),
-  },
-  {
-    id: '2',
-    name: 'Ethereum',
-    symbol: 'ETH',
-    price: '$146.83',
-    percentage: 1.46,
-    img: require('../../assets/img/ethereum.png'),
-  },
-  {
-    id: '3',
-    name: 'XRP',
-    symbol: 'XRP',
-    price: '$0.220568',
-    percentage: -2.47,
-    img: require('../../assets/img/xrp.png'),
-  },
-];
+const ListCripto = ({setModal}: ListCriptoProps) => {
+  const cryptosState = useAppSelector(state => state.crypto.cryptosData);
+  const errorState = useAppSelector(state => state.crypto.error);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    console.log('ERROR: ', errorState);
+    console.log('CRYPTOS: ', cryptosState);
+  }, [errorState, cryptosState]);
 
-const ListCripto = ({setModal}: ListCriptoProps) => (
-  <FlatList
-    data={DataCripto}
-    renderItem={({item}) => <ItemCripto item={item} />}
-    keyExtractor={({id}) => id}
-    ListHeaderComponent={
-      <>
-        <Nav>
-          <Title>CryptoTracker Pro</Title>
-          <Image source={require('../../assets/img/avatar.png')} />
-        </Nav>
-      </>
-    }
-    ListFooterComponent={
-      <>
-        <PressableAdd onPress={() => setModal(true)}>
-          <PressableAddText>+ Add a Cryptocurrency</PressableAddText>
-        </PressableAdd>
-      </>
-    }
-  />
-);
+  const errorAlert = () => {
+    Alert.alert('Error', `${errorState}`, [
+      {
+        text: 'OK',
+        onPress: () => dispatch(cleanError()),
+      },
+    ]);
+  };
+
+  return (
+    <>
+      <Nav>
+        <Title>CryptoTracker Pro</Title>
+        <Image source={require('../../assets/img/avatar.png')} />
+      </Nav>
+      <FlatList
+        data={cryptosState}
+        renderItem={({item}) => <ItemCripto item={item} />}
+        keyExtractor={({id}) => id}
+        extraData={cryptosState}
+        ListFooterComponent={
+          <>
+            <PressableAdd onPress={() => setModal(true)}>
+              <PressableAddText>+ Add a Cryptocurrency</PressableAddText>
+            </PressableAdd>
+          </>
+        }
+      />
+      {errorState !== '' ? errorAlert() : null}
+    </>
+  );
+};
 
 export default ListCripto;
