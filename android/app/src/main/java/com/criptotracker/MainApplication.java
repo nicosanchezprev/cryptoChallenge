@@ -1,4 +1,4 @@
-package com.cryptochallenge;
+package com.criptotracker;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
