@@ -25,10 +25,11 @@ export const CriptoName = styled.Text`
 `;
 
 interface CriptoPercentageProps {
-  color: string;
+  color: boolean;
 }
 export const CriptoPercentage = styled.Text<CriptoPercentageProps>`
-  color: ${props => props.color}
+  color: ${props =>
+    props.color === true ? theme.colors.green : theme.colors.red}
   text-align: right;
 `;
 
