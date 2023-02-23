@@ -3,7 +3,6 @@ import {Alert, Pressable, Text, View} from 'react-native';
 import {useAppDispatch} from '../../redux/hooks/hooks';
 import {deleteCrypto} from '../../redux/reducersComp/cryptosSlice';
 import {ItemCriptoProps} from '../../utils/interfaces';
-import {theme} from '../../utils/theme';
 
 import {
   CriptoContainer,
@@ -24,7 +23,7 @@ export const truncPrice = (n: any) => {
     let t = n.toString();
     let q = t.substring(1);
     let regex = /(\d*.\d{0,2})/;
-    return '-' + q.match(regex)[0];
+    return q.match(regex)[0];
   } else {
     let t = n.toString();
     let regex = /(\d*.\d{0,2})/;
@@ -58,21 +57,18 @@ const ItemCripto = ({item}: ItemCriptoProps) => {
         </SeconContainer>
         <View>
           <CriptoPrice>{'$' + truncPrice(item.price)}</CriptoPrice>
-          {item.percentage > 0 ? (
-            <ViewArrow>
-              <ImageArrow source={require('../../assets/img/greenarrow.png')} />
-              <CriptoPercentage color={theme.colors.green}>
-                {truncPrice(item.percentage) + '%'}
-              </CriptoPercentage>
-            </ViewArrow>
-          ) : (
-            <ViewArrow>
-              <ImageArrow source={require('../../assets/img/redarrow.png')} />
-              <CriptoPercentage color={theme.colors.red}>
-                {truncPrice(item.percentage) + '%'}
-              </CriptoPercentage>
-            </ViewArrow>
-          )}
+          <ViewArrow>
+            <ImageArrow
+              source={
+                item.percentage > 0
+                  ? require('../../assets/img/greenarrow.png')
+                  : require('../../assets/img/redarrow.png')
+              }
+            />
+            <CriptoPercentage color={item.percentage > 0}>
+              {truncPrice(item.percentage) + '%'}
+            </CriptoPercentage>
+          </ViewArrow>
         </View>
       </CriptoContainer>
     </Pressable>
