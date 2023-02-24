@@ -3,7 +3,8 @@ import type {PayloadAction} from '@reduxjs/toolkit';
 import axios from 'axios';
 
 import type {RootState} from '../store';
-import {initialStateProps} from '../../utils/interfaces';
+import {initialStateProps, DataCriptoInfo} from '../../utils/interfaces';
+import {removeValue, storeData} from '../../utils/asyncFunctions';
 
 const initialState: initialStateProps = {
   cryptosData: [],
@@ -39,6 +40,19 @@ const cryptosSlice = createSlice({
   name: 'cryptos',
   initialState,
   reducers: {
+    addCrypto: (state, action: PayloadAction<DataCriptoInfo | null>) => {
+      if (action.payload === null) {
+        return;
+      }
+      let check = state.cryptosData.find(
+        elem => elem.name === action.payload?.name,
+      );
+      if (check === undefined) {
+        state.cryptosData.push(action.payload);
+      } else {
+        return;
+      }
+    },
     cleanError: state => {
       state.error = '';
     },
@@ -46,6 +60,7 @@ const cryptosSlice = createSlice({
       state.cryptosData = state.cryptosData.filter(
         crypto => crypto.name !== action.payload,
       );
+      removeValue(action.payload);
     },
   },
   extraReducers: builder => {
@@ -55,6 +70,7 @@ const cryptosSlice = createSlice({
       );
       if (check === undefined) {
         state.cryptosData.push(action.payload);
+        storeData(action.payload);
       } else {
         state.error = 'This cryptocurrencie is already added!';
       }
@@ -65,7 +81,7 @@ const cryptosSlice = createSlice({
   },
 });
 
-export const {cleanError, deleteCrypto} = cryptosSlice.actions;
+export const {addCrypto, cleanError, deleteCrypto} = cryptosSlice.actions;
 
 export const selectCount = (state: RootState) => state.crypto;
 
