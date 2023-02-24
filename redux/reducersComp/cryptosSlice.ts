@@ -1,9 +1,8 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import type {PayloadAction} from '@reduxjs/toolkit';
 import axios from 'axios';
-
+import {API_URL, ICONS_URL} from '@env';
 import type {RootState} from '../store';
-import {initialStateProps, DataCriptoInfo} from '../../utils/interfaces';
+import {initialStateProps} from '../../utils/interfaces';
 
 const initialState: initialStateProps = {
   cryptosData: [],
@@ -13,9 +12,8 @@ const initialState: initialStateProps = {
 export const cryptoApiData = createAsyncThunk(
   'crypto/api',
   async (name: string) => {
-    const response = await axios.get(
-      `https://data.messari.io/api/v1/assets/${name}/metrics`,
-    );
+    console.log(API_URL, ICONS_URL);
+    const response = await axios.get(`${API_URL}/assets/${name}/metrics`);
     if (response.data.data) {
       const symbolLower = response.data.data.symbol.toLowerCase();
       return {
@@ -26,7 +24,7 @@ export const cryptoApiData = createAsyncThunk(
         percentage:
           response.data.data.market_data.percent_change_usd_last_24_hours,
         img: {
-          uri: `https://cryptoicons.org/api/color/${symbolLower}/50`,
+          uri: `${ICONS_URL}/${symbolLower}/50`,
         },
       };
     } else {
@@ -38,32 +36,10 @@ export const cryptoApiData = createAsyncThunk(
 const cryptosSlice = createSlice({
   name: 'cryptos',
   initialState,
-  reducers: {
-    addCrypto: (state, action: PayloadAction<DataCriptoInfo | null>) => {
-      if (action.payload === null) {
-        return;
-      }
-      let check = state.cryptosData.find(
-        elem => elem.name === action.payload?.name,
-      );
-      if (check === undefined) {
-        state.cryptosData.push(action.payload);
-      } else {
-        return;
-      }
-    },
-    cleanError: state => {
-      state.error = '';
-    },
-    deleteCrypto: (state, action: PayloadAction<string>) => {
-      state.cryptosData = state.cryptosData.filter(
-        crypto => crypto.name !== action.payload,
-      );
-    },
-  },
+  reducers: {},
   extraReducers: builder => {
     builder.addCase(cryptoApiData.fulfilled, (state, action) => {
-      let check = state.cryptosData.find(
+      const check = state.cryptosData.find(
         elem => elem.name === action.payload.name,
       );
       if (check === undefined) {
@@ -77,8 +53,6 @@ const cryptosSlice = createSlice({
     });
   },
 });
-
-export const {addCrypto, cleanError, deleteCrypto} = cryptosSlice.actions;
 
 export const selectCount = (state: RootState) => state.crypto;
 

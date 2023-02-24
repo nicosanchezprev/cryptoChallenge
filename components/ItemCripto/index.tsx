@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable, Text, View} from 'react-native';
+import {Image, Pressable, Text, View} from 'react-native';
 import {ItemCriptoProps} from '../../utils/interfaces';
 
 import {
@@ -7,7 +7,6 @@ import {
   SeconContainer,
   CriptoName,
   CriptoPercentage,
-  ImageArrow,
   ViewArrow,
   CriptoPrice,
   CriptoImg,
@@ -29,35 +28,33 @@ export const truncPrice = (n: any) => {
   }
 };
 
-const ItemCripto = ({item}: ItemCriptoProps) => {
-  return (
-    <Pressable>
-      <CriptoContainer>
-        <SeconContainer>
-          <CriptoImg source={item.img} />
-          <View>
-            <CriptoName>{item.name}</CriptoName>
-            <Text>{item.symbol}</Text>
-          </View>
-        </SeconContainer>
+const ItemCripto = ({item}: ItemCriptoProps) => (
+  <Pressable>
+    <CriptoContainer>
+      <SeconContainer>
+        <CriptoImg source={item.img} />
         <View>
-          <CriptoPrice>{'$' + truncPrice(item.price)}</CriptoPrice>
-          <ViewArrow>
-            <ImageArrow
-              source={
-                item.percentage > 0
-                  ? require('../../assets/img/greenarrow.png')
-                  : require('../../assets/img/redarrow.png')
-              }
-            />
-            <CriptoPercentage color={item.percentage > 0}>
-              {truncPrice(item.percentage) + '%'}
-            </CriptoPercentage>
-          </ViewArrow>
+          <CriptoName>{item.name}</CriptoName>
+          <Text>{item.symbol}</Text>
         </View>
-      </CriptoContainer>
-    </Pressable>
-  );
-};
+      </SeconContainer>
+      <View>
+        <CriptoPrice>{'$' + item.price.toFixed(2)}</CriptoPrice>
+        <ViewArrow>
+          <Image
+            source={
+              item.percentage > 0
+                ? require('../../assets/img/greenarrow.png')
+                : require('../../assets/img/redarrow.png')
+            }
+          />
+          <CriptoPercentage color={item.percentage >= 0}>
+            {Math.abs(Number(item.percentage.toFixed(2))) + '%'}
+          </CriptoPercentage>
+        </ViewArrow>
+      </View>
+    </CriptoContainer>
+  </Pressable>
+);
 
 export default ItemCripto;

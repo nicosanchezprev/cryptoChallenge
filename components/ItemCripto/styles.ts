@@ -44,8 +44,6 @@ export const CriptoPrice = styled.Text`
   color: ${theme.colors.black};
 `;
 
-export const ImageArrow = styled.Image``;
-
 export const ViewArrow = styled.View`
   flex-direction: row;
   column-gap: 3px;
