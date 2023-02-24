@@ -32,16 +32,15 @@ const ListCripto = ({setModal}: ListCriptoProps) => {
         keyExtractor={({id}) => id}
         extraData={cryptosState}
         ListFooterComponent={
-          <>
-            <PressableAdd onPress={() => setModal(true)}>
-              <PressableAddText>+ Add a Cryptocurrency</PressableAddText>
-            </PressableAdd>
-          </>
+          <PressableAdd onPress={() => setModal(true)}>
+            <PressableAddText>+ Add a Cryptocurrency</PressableAddText>
+          </PressableAdd>
         }
       />
       {errorState !== '' ? errorAlert() : null}
     </>
   );
 };
+
 
 export default ListCripto;
