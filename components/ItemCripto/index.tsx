@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, Pressable, Text, View} from 'react-native';
+import {Alert, Image, Pressable, Text, View} from 'react-native';
 import {useAppDispatch} from '../../redux/hooks/hooks';
 import {deleteCrypto} from '../../redux/reducersComp/cryptosSlice';
 import {ItemCriptoProps} from '../../utils/interfaces';
@@ -9,7 +9,6 @@ import {
   SeconContainer,
   CriptoName,
   CriptoPercentage,
-  ImageArrow,
   ViewArrow,
   CriptoPrice,
   CriptoImg,
@@ -56,17 +55,17 @@ const ItemCripto = ({item}: ItemCriptoProps) => {
           </View>
         </SeconContainer>
         <View>
-          <CriptoPrice>{'$' + truncPrice(item.price)}</CriptoPrice>
+          <CriptoPrice>{'$' + item.price.toFixed(2)}</CriptoPrice>
           <ViewArrow>
-            <ImageArrow
+            <Image
               source={
                 item.percentage > 0
                   ? require('../../assets/img/greenarrow.png')
                   : require('../../assets/img/redarrow.png')
               }
             />
-            <CriptoPercentage color={item.percentage > 0}>
-              {truncPrice(item.percentage) + '%'}
+            <CriptoPercentage color={item.percentage >= 0}>
+              {Math.abs(Number(item.percentage.toFixed(2))) + '%'}
             </CriptoPercentage>
           </ViewArrow>
         </View>

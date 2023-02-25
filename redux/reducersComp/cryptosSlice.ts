@@ -1,7 +1,7 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import type {PayloadAction} from '@reduxjs/toolkit';
 import axios from 'axios';
-
+import {API_URL, ICONS_URL} from '@env';
 import type {RootState} from '../store';
 import {initialStateProps, DataCriptoInfo} from '../../utils/interfaces';
 import {removeValue, storeData} from '../../utils/asyncFunctions';
@@ -14,9 +14,7 @@ const initialState: initialStateProps = {
 export const cryptoApiData = createAsyncThunk(
   'crypto/api',
   async (name: string) => {
-    const response = await axios.get(
-      `https://data.messari.io/api/v1/assets/${name}/metrics`,
-    );
+    const response = await axios.get(`${API_URL}/assets/${name}/metrics`);
     if (response.data.data) {
       const symbolLower = response.data.data.symbol.toLowerCase();
       return {
@@ -27,7 +25,7 @@ export const cryptoApiData = createAsyncThunk(
         percentage:
           response.data.data.market_data.percent_change_usd_last_24_hours,
         img: {
-          uri: `https://cryptoicons.org/api/color/${symbolLower}/50`,
+          uri: `${ICONS_URL}/${symbolLower}/50`,
         },
       };
     } else {
