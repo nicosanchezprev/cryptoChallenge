@@ -3,6 +3,7 @@ import {Alert, FlatList, Image} from 'react-native';
 import {ListCriptoProps} from '../../utils/interfaces';
 import {Nav, PressableAdd, PressableAddText, Title} from './styles';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks/hooks';
+
 import ItemCripto from '../ItemCripto';
 import {cleanError} from '../../redux/reducersComp/cryptosSlice';
 

@@ -2,6 +2,7 @@ import React from 'react';
 import {Alert, Image, Pressable, Text, View} from 'react-native';
 import {useAppDispatch} from '../../redux/hooks/hooks';
 import {deleteCrypto} from '../../redux/reducersComp/cryptosSlice';
+
 import {ItemCriptoProps} from '../../utils/interfaces';
 
 import {

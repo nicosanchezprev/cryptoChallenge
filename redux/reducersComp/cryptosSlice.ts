@@ -64,6 +64,7 @@ const cryptosSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(cryptoApiData.fulfilled, (state, action) => {
       let check = state.cryptosData.find(
+
         elem => elem.name === action.payload.name,
       );
       if (check === undefined) {
