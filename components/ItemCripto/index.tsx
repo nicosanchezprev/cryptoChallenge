@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, Text, View} from 'react-native';
+import {Image, Pressable, Text, View} from 'react-native';
 import {ItemCriptoProps} from '../../utils/interfaces';
 
 import {
@@ -7,32 +7,38 @@ import {
   SeconContainer,
   CriptoName,
   CriptoPercentage,
-  ImageArrow,
+  ViewArrow,
+  CriptoPrice,
+  CriptoImg,
 } from './styles';
 
 const ItemCripto = ({item}: ItemCriptoProps) => (
-  <CriptoContainer>
-    <SeconContainer>
-      <Image source={item.img} />
+  <Pressable>
+    <CriptoContainer>
+      <SeconContainer>
+        <CriptoImg source={item.img} />
+        <View>
+          <CriptoName>{item.name}</CriptoName>
+          <Text>{item.symbol}</Text>
+        </View>
+      </SeconContainer>
       <View>
-        <CriptoName>{item.name}</CriptoName>
-        <Text>{item.symbol}</Text>
+        <CriptoPrice>{'$' + item.price.toFixed(2)}</CriptoPrice>
+        <ViewArrow>
+          <Image
+            source={
+              item.percentage > 0
+                ? require('../../assets/img/greenarrow.png')
+                : require('../../assets/img/redarrow.png')
+            }
+          />
+          <CriptoPercentage color={item.percentage >= 0}>
+            {Math.abs(Number(item.percentage.toFixed(2))) + '%'}
+          </CriptoPercentage>
+        </ViewArrow>
       </View>
-    </SeconContainer>
-    <View>
-      <CriptoName>{item.price}</CriptoName>
-      <CriptoPercentage color={item.percentage > 0}>
-        <ImageArrow
-          source={
-            item.percentage > 0
-              ? require('../../assets/img/greenarrow.png')
-              : require('../../assets/img/redarrow.png')
-          }
-        />
-        {Math.abs(item.percentage) + '%'}
-      </CriptoPercentage>
-    </View>
-  </CriptoContainer>
+    </CriptoContainer>
+  </Pressable>
 );
 
 export default ItemCripto;

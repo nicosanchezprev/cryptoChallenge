@@ -18,6 +18,11 @@ export const SeconContainer = styled.View`
   column-gap: 8px;
 `;
 
+export const CriptoImg = styled.Image`
+  width: 50px;
+  height: 50px;
+`;
+
 export const CriptoName = styled.Text`
   font-weight: 600;
   font-size: 16px;
@@ -32,7 +37,16 @@ export const CriptoPercentage = styled.Text<CriptoPercentageProps>`
     props.color === true ? theme.colors.green : theme.colors.red}
   text-align: right;
 `;
+export const CriptoPrice = styled.Text`
+  text-align: right;
+  font-weight: 600;
+  font-size: 16px;
+  color: ${theme.colors.black};
+`;
 
-export const ImageArrow = styled.Image`
-  margin-right: 4px;
+export const ViewArrow = styled.View`
+  flex-direction: row;
+  column-gap: 3px;
+  align-items: center;
+  justify-content: flex-end;
 `;
