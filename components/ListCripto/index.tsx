@@ -6,7 +6,7 @@ import {useAppSelector} from '../../redux/hooks/hooks';
 import ItemCripto from '../ItemCripto';
 
 const ListCripto = ({setModal}: ListCriptoProps) => {
-  const cryptosState = useAppSelector(state => state.crypto.cryptosData);
+  const {cryptosData} = useAppSelector(state => state.crypto);
 
   return (
     <>
@@ -15,10 +15,10 @@ const ListCripto = ({setModal}: ListCriptoProps) => {
         <Image source={require('../../assets/img/avatar.png')} />
       </Nav>
       <FlatList
-        data={cryptosState}
+        data={cryptosData}
         renderItem={({item}) => <ItemCripto item={item} />}
         keyExtractor={({id}) => id}
-        extraData={cryptosState}
+        extraData={cryptosData}
         ListFooterComponent={
           <PressableAdd onPress={() => setModal(true)}>
             <PressableAddText>+ Add a Cryptocurrency</PressableAddText>

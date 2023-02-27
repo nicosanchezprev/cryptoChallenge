@@ -12,7 +12,6 @@ const initialState: initialStateProps = {
 export const cryptoApiData = createAsyncThunk(
   'crypto/api',
   async (name: string) => {
-    console.log(API_URL, ICONS_URL);
     const response = await axios.get(`${API_URL}/assets/${name}/metrics`);
     if (response.data.data) {
       const symbolLower = response.data.data.symbol.toLowerCase();
@@ -45,15 +44,15 @@ const cryptosSlice = createSlice({
       if (check === undefined) {
         state.cryptosData.push(action.payload);
       } else {
-        state.error = 'This cryptocurrencie is already added!';
+        state.error = 'This cryptocurrency is already added!';
       }
     });
     builder.addCase(cryptoApiData.rejected, state => {
-      state.error = 'This cryptocurrencie do not exist!';
+      state.error = 'This cryptocurrency do not exist!';
     });
   },
 });
 
-export const selectCount = (state: RootState) => state.crypto;
+export const selectCount = ({crypto}: RootState) => crypto;
 
 export default cryptosSlice.reducer;
