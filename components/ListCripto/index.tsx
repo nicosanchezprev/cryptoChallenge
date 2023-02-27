@@ -7,12 +7,11 @@ import ItemCripto from '../ItemCripto';
 import {cleanError} from '../../redux/reducersComp/cryptosSlice';
 
 const ListCripto = ({setModal}: ListCriptoProps) => {
-  const cryptosState = useAppSelector(state => state.crypto.cryptosData);
-  const errorState = useAppSelector(state => state.crypto.error);
+  const {cryptosData, error} = useAppSelector(state => state.crypto);
   const dispatch = useAppDispatch();
 
   const errorAlert = () => {
-    Alert.alert('Error', `${errorState}`, [
+    Alert.alert('Error', `${error}`, [
       {
         text: 'OK',
         onPress: () => dispatch(cleanError()),
@@ -27,20 +26,19 @@ const ListCripto = ({setModal}: ListCriptoProps) => {
         <Image source={require('../../assets/img/avatar.png')} />
       </Nav>
       <FlatList
-        data={cryptosState}
+        data={cryptosData}
         renderItem={({item}) => <ItemCripto item={item} />}
         keyExtractor={({id}) => id}
-        extraData={cryptosState}
+        extraData={cryptosData}
         ListFooterComponent={
           <PressableAdd onPress={() => setModal(true)}>
             <PressableAddText>+ Add a Cryptocurrency</PressableAddText>
           </PressableAdd>
         }
       />
-      {errorState !== '' ? errorAlert() : null}
+      {error !== '' ? errorAlert() : null}
     </>
   );
 };
-
 
 export default ListCripto;
