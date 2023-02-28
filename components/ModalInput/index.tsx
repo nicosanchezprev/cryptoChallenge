@@ -46,7 +46,7 @@ const ModalInput = ({modal, setModal}: ModalInputProps) => {
           <PressableAdd
             disabled={inputValue === ''}
             onPress={addCryptocurrency}>
-            <TextAdd col={isActive}>Add</TextAdd>
+            <TextAdd col={inputValue !== ''}>Add</TextAdd>
           </PressableAdd>
         </ViewInput>
       </ModalView>
