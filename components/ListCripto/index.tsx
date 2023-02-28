@@ -8,7 +8,7 @@ import ItemCripto from '../ItemCripto';
 import {cleanError} from '../../redux/reducersComp/cryptosSlice';
 
 const ListCripto = ({setModal}: ListCriptoProps) => {
-  const {cryptosData, error} = useAppSelector(state => state.crypto);
+  const {cryptosData, error} = useAppSelector(({crypto}) => crypto);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -20,7 +20,9 @@ const ListCripto = ({setModal}: ListCriptoProps) => {
         },
       ]);
     };
-    error !== '' ? errorAlert() : null;
+    if (error !== '') {
+      errorAlert();
+    }
   }, [error, dispatch]);
 
   return (

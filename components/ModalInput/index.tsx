@@ -27,7 +27,7 @@ const ModalInput = ({modal, setModal}: ModalInputProps) => {
   };
 
   return (
-    <Modal visible={modal} animationType={'slide'}>
+    <Modal visible={modal} animationType="slide">
       <ModalView>
         <Pressable onPress={() => setModal(false)}>
           <TextPressable>{'< Back to list'}</TextPressable>
@@ -44,7 +44,7 @@ const ModalInput = ({modal, setModal}: ModalInputProps) => {
             col={isActive}
           />
           <PressableAdd
-            disabled={inputValue === '' ? true : false}
+            disabled={inputValue === ''}
             onPress={addCryptocurrency}>
             <TextAdd col={isActive}>Add</TextAdd>
           </PressableAdd>

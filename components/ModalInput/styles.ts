@@ -35,11 +35,11 @@ interface PropsInput {
 
 export const Input = styled.TextInput<PropsInput>`
   background-color: ${props =>
-    props.col === true ? theme.colors.white : theme.colors.skyBlue};
+    props.col ? theme.colors.white : theme.colors.skyBlue};
   padding: 10px;
   width: 100%;
-  border: ${props => (props.col === true ? '2px' : '1px')} solid
-    ${props => (props.col === true ? theme.colors.yellow : theme.colors.blue2)};
+  border: ${props => (props.col ? '2px' : '1px')} solid
+    ${props => (props.col ? theme.colors.yellow : theme.colors.blue2)};
   border-radius: 2px;
 `;
 
@@ -57,6 +57,5 @@ interface TextAddProps {
 export const TextAdd = styled.Text<TextAddProps>`
   font-weight: 800;
   font-size: 18px;
-  color: ${props =>
-    props.col === true ? theme.colors.blue : theme.colors.grey2};
+  color: ${props => (props.col ? theme.colors.blue : theme.colors.grey2)};
 `;

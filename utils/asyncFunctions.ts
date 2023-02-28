@@ -7,7 +7,7 @@ export const storeData = async (value: DataCriptoInfo) => {
     const jsonValue = JSON.stringify(value);
     await AsyncStorage.setItem(`${value.name}`, jsonValue);
   } catch (e: any) {
-    console.log(e);
+    console.error(e);
   }
 };
 
@@ -15,7 +15,7 @@ export const removeValue = async (keyName: string) => {
   try {
     await AsyncStorage.removeItem(keyName);
   } catch (e: any) {
-    console.log(e);
+    console.error(e);
   }
 };
 
@@ -27,7 +27,7 @@ export const getAllKeys = async () => {
       return keys;
     }
   } catch (e: any) {
-    console.log(e);
+    console.error(e);
   }
 };
 
@@ -35,10 +35,9 @@ export const getMultiple = async () => {
   try {
     let values;
     let asyncKeys = await getAllKeys();
-    console.log('asynckeys', asyncKeys);
     values = await AsyncStorage.multiGet(asyncKeys ? asyncKeys : ['null']);
     return values;
   } catch (e: any) {
-    console.log(e);
+    console.error(e);
   }
 };

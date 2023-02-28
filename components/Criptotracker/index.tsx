@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {PrincipalView} from './styles';
+import {Main} from './styles';
 import ListCripto from '../ListCripto';
 import ModalInput from '../ModalInput';
 import {getMultiple} from '../../utils/asyncFunctions';
@@ -12,7 +12,7 @@ const Criptotracker: () => JSX.Element = () => {
   useEffect(() => {
     const asyncSearch = async () => {
       const allStorage = await getMultiple();
-      allStorage?.map(item => {
+      allStorage?.forEach(item => {
         dispatch(addCrypto(item[1] ? JSON.parse(item[1]) : null));
       });
     };
@@ -20,10 +20,10 @@ const Criptotracker: () => JSX.Element = () => {
   }, [dispatch]);
 
   return (
-    <PrincipalView>
+    <Main>
       <ListCripto setModal={setModal} />
       {modal && <ModalInput modal={modal} setModal={setModal} />}
-    </PrincipalView>
+    </Main>
   );
 };
 
