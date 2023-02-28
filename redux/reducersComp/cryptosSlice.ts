@@ -63,19 +63,18 @@ const cryptosSlice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(cryptoApiData.fulfilled, (state, action) => {
-      let check = state.cryptosData.find(
-
+      const check = state.cryptosData.find(
         elem => elem.name === action.payload.name,
       );
       if (check === undefined) {
         state.cryptosData.push(action.payload);
         storeData(action.payload);
       } else {
-        state.error = 'This cryptocurrency is already added!';
+        state.error = 'This cryptocurrency was already added!';
       }
     });
     builder.addCase(cryptoApiData.rejected, state => {
-      state.error = 'This cryptocurrency do not exist!';
+      state.error = 'This cryptocurrency does not exist!';
     });
   },
 });

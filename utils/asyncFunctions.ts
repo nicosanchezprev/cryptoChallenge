@@ -14,7 +14,6 @@ export const storeData = async (value: DataCriptoInfo) => {
 export const removeValue = async (keyName: string) => {
   try {
     await AsyncStorage.removeItem(keyName);
-    console.log('Removed from async-storage!');
   } catch (e: any) {
     console.log(e);
   }

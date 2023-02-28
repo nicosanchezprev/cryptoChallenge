@@ -30,23 +30,18 @@ export const TextTitle = styled.Text`
 `;
 
 interface PropsInput {
-  theme: {back: string; border: string; borderPX: string};
+  col: boolean;
 }
 
 export const Input = styled.TextInput<PropsInput>`
-  background-color: ${props => props.theme.back};
+  background-color: ${props =>
+    props.col === true ? theme.colors.white : theme.colors.skyBlue};
   padding: 10px;
   width: 100%;
-  border: ${props => props.theme.borderPX} solid ${props => props.theme.border};
+  border: ${props => (props.col === true ? '2px' : '1px')} solid
+    ${props => (props.col === true ? theme.colors.yellow : theme.colors.blue2)};
   border-radius: 2px;
 `;
-Input.defaultProps = {
-  theme: {
-    back: theme.colors.skyBlue,
-    border: theme.colors.blue2,
-    borderPX: '1px',
-  },
-};
 
 export const PressableAdd = styled.Pressable`
   background-color: ${theme.colors.yellow};
@@ -56,16 +51,12 @@ export const PressableAdd = styled.Pressable`
 `;
 
 interface TextAddProps {
-  theme: {col: string};
+  col: boolean;
 }
 
 export const TextAdd = styled.Text<TextAddProps>`
   font-weight: 800;
   font-size: 18px;
-  color: ${props => props.theme.col};
+  color: ${props =>
+    props.col === true ? theme.colors.blue : theme.colors.grey2};
 `;
-TextAdd.defaultProps = {
-  theme: {
-    col: theme.colors.grey2,
-  },
-};

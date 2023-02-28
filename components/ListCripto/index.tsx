@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Alert, FlatList, Image} from 'react-native';
 import {ListCriptoProps} from '../../utils/interfaces';
 import {Nav, PressableAdd, PressableAddText, Title} from './styles';
@@ -11,14 +11,17 @@ const ListCripto = ({setModal}: ListCriptoProps) => {
   const {cryptosData, error} = useAppSelector(state => state.crypto);
   const dispatch = useAppDispatch();
 
-  const errorAlert = () => {
-    Alert.alert('Error', `${error}`, [
-      {
-        text: 'OK',
-        onPress: () => dispatch(cleanError()),
-      },
-    ]);
-  };
+  useEffect(() => {
+    const errorAlert = () => {
+      Alert.alert('Error', `${error}`, [
+        {
+          text: 'OK',
+          onPress: () => dispatch(cleanError()),
+        },
+      ]);
+    };
+    error !== '' ? errorAlert() : null;
+  }, [error, dispatch]);
 
   return (
     <>
@@ -37,7 +40,6 @@ const ListCripto = ({setModal}: ListCriptoProps) => {
           </PressableAdd>
         }
       />
-      {error !== '' ? errorAlert() : null}
     </>
   );
 };

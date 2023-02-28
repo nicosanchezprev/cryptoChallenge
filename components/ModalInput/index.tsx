@@ -12,8 +12,6 @@ import {
 } from './styles';
 
 import {ModalInputProps} from '../../utils/interfaces';
-import {ThemeProvider} from 'styled-components/native';
-import {theme} from '../../utils/theme';
 import {cryptoApiData} from '../../redux/reducersComp/cryptosSlice';
 import {useAppDispatch} from '../../redux/hooks/hooks';
 
@@ -22,24 +20,7 @@ const ModalInput = ({modal, setModal}: ModalInputProps) => {
   const [isActive, setIsActive] = useState(false);
   const dispatch = useAppDispatch();
 
-  const themeInputChange = {
-    back: theme.colors.white,
-    border: theme.colors.yellow,
-    borderPX: '2px',
-  };
-  const themeInputDefault = {
-    back: theme.colors.skyBlue,
-    border: theme.colors.blue2,
-    borderPX: '1px',
-  };
-  const themePresTextChange = {
-    col: theme.colors.blue,
-  };
-  const themePresTextDefault = {
-    col: theme.colors.grey2,
-  };
-
-  const addCryptocurrencie = () => {
+  const addCryptocurrency = () => {
     dispatch(cryptoApiData(inputValue)).then(() => {
       setModal(false);
     });
@@ -53,25 +34,19 @@ const ModalInput = ({modal, setModal}: ModalInputProps) => {
         </Pressable>
         <ViewInput>
           <TextTitle>Add a Cryptocurrency</TextTitle>
-          <ThemeProvider
-            theme={isActive ? themeInputChange : themeInputDefault}>
-            <Input
-              onChangeText={setInputValue}
-              value={inputValue}
-              placeholder="Use a name or ticker symbol..."
-              keyboardType="default"
-              onFocus={() => setIsActive(true)}
-              onBlur={() => setIsActive(false)}
-            />
-          </ThemeProvider>
+          <Input
+            onChangeText={setInputValue}
+            value={inputValue}
+            placeholder="Use a name or ticker symbol..."
+            keyboardType="default"
+            onFocus={() => setIsActive(true)}
+            onBlur={() => setIsActive(false)}
+            col={isActive}
+          />
           <PressableAdd
-            onPress={() => {
-              addCryptocurrencie();
-            }}>
-            <ThemeProvider
-              theme={isActive ? themePresTextChange : themePresTextDefault}>
-              <TextAdd>Add</TextAdd>
-            </ThemeProvider>
+            disabled={inputValue === '' ? true : false}
+            onPress={addCryptocurrency}>
+            <TextAdd col={isActive}>Add</TextAdd>
           </PressableAdd>
         </ViewInput>
       </ModalView>
