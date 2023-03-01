@@ -1,8 +1,10 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import type {PayloadAction} from '@reduxjs/toolkit';
 import axios from 'axios';
 import {API_URL, ICONS_URL} from '@env';
 import type {RootState} from '../store';
-import {initialStateProps} from '../../utils/interfaces';
+import {initialStateProps, DataCriptoInfo} from '../../utils/interfaces';
+import {removeValue, storeData} from '../../utils/asyncFunctions';
 
 const initialState: initialStateProps = {
   cryptosData: [],
@@ -35,7 +37,30 @@ export const cryptoApiData = createAsyncThunk(
 const cryptosSlice = createSlice({
   name: 'cryptos',
   initialState,
-  reducers: {},
+  reducers: {
+    addCrypto: (state, action: PayloadAction<DataCriptoInfo | null>) => {
+      if (action.payload === null) {
+        return;
+      }
+      let check = state.cryptosData.find(
+        elem => elem.name === action.payload?.name,
+      );
+      if (check === undefined) {
+        state.cryptosData.push(action.payload);
+      } else {
+        return;
+      }
+    },
+    cleanError: state => {
+      state.error = '';
+    },
+    deleteCrypto: (state, action: PayloadAction<string>) => {
+      state.cryptosData = state.cryptosData.filter(
+        crypto => crypto.name !== action.payload,
+      );
+      removeValue(action.payload);
+    },
+  },
   extraReducers: builder => {
     builder.addCase(cryptoApiData.fulfilled, (state, action) => {
       const check = state.cryptosData.find(
@@ -43,15 +68,18 @@ const cryptosSlice = createSlice({
       );
       if (check === undefined) {
         state.cryptosData.push(action.payload);
+        storeData(action.payload);
       } else {
-        state.error = 'This cryptocurrency is already added!';
+        state.error = 'This cryptocurrency was already added!';
       }
     });
     builder.addCase(cryptoApiData.rejected, state => {
-      state.error = 'This cryptocurrency do not exist!';
+      state.error = 'This cryptocurrency does not exist!';
     });
   },
 });
+
+export const {addCrypto, cleanError, deleteCrypto} = cryptosSlice.actions;
 
 export const selectCount = ({crypto}: RootState) => crypto;
 

@@ -1,12 +1,29 @@
-import React from 'react';
-import {FlatList, Image} from 'react-native';
+import React, {useEffect} from 'react';
+import {Alert, FlatList, Image} from 'react-native';
 import {ListCriptoProps} from '../../utils/interfaces';
 import {Nav, PressableAdd, PressableAddText, Title} from './styles';
-import {useAppSelector} from '../../redux/hooks/hooks';
+import {useAppDispatch, useAppSelector} from '../../redux/hooks/hooks';
+
 import ItemCripto from '../ItemCripto';
+import {cleanError} from '../../redux/reducersComp/cryptosSlice';
 
 const ListCripto = ({setModal}: ListCriptoProps) => {
-  const {cryptosData} = useAppSelector(state => state.crypto);
+  const {cryptosData, error} = useAppSelector(({crypto}) => crypto);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const errorAlert = () => {
+      Alert.alert('Error', `${error}`, [
+        {
+          text: 'OK',
+          onPress: () => dispatch(cleanError()),
+        },
+      ]);
+    };
+    if (error !== '') {
+      errorAlert();
+    }
+  }, [error, dispatch]);
 
   return (
     <>

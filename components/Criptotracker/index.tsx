@@ -1,23 +1,29 @@
-import React, {useEffect, useState} from 'react';
-import {PrincipalView} from './styles';
+import React, {useState, useEffect} from 'react';
+import {Main} from './styles';
 import ListCripto from '../ListCripto';
+import ModalInput from '../ModalInput';
+import {getMultiple} from '../../utils/asyncFunctions';
+import {addCrypto} from '../../redux/reducersComp/cryptosSlice';
 import {useAppDispatch} from '../../redux/hooks/hooks';
-import {cryptoApiData} from '../../redux/reducersComp/cryptosSlice';
 
 const Criptotracker: () => JSX.Element = () => {
   const [modal, setModal] = useState(false);
   const dispatch = useAppDispatch();
-
   useEffect(() => {
-    dispatch(cryptoApiData('btc'));
-    dispatch(cryptoApiData('usdt'));
-    dispatch(cryptoApiData('eth'));
+    const asyncSearch = async () => {
+      const allStorage = await getMultiple();
+      allStorage?.forEach(item => {
+        dispatch(addCrypto(item[1] ? JSON.parse(item[1]) : null));
+      });
+    };
+    asyncSearch();
   }, [dispatch]);
 
   return (
-    <PrincipalView>
+    <Main>
       <ListCripto setModal={setModal} />
-    </PrincipalView>
+      {modal && <ModalInput modal={modal} setModal={setModal} />}
+    </Main>
   );
 };
 
