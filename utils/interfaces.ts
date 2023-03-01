@@ -24,3 +24,8 @@ export interface initialStateProps {
   cryptosData: DataCriptoInfo[];
   error: string;
 }
+
+export interface cryptoThunkProps {
+  name: string;
+  refresh: boolean;
+}

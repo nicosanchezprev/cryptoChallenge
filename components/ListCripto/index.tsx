@@ -1,14 +1,15 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Alert, FlatList, Image} from 'react-native';
 import {ListCriptoProps} from '../../utils/interfaces';
 import {Nav, PressableAdd, PressableAddText, Title} from './styles';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks/hooks';
 
 import ItemCripto from '../ItemCripto';
-import {cleanError} from '../../redux/reducersComp/cryptosSlice';
+import {cleanError, cryptoApiData} from '../../redux/reducersComp/cryptosSlice';
 
 const ListCripto = ({setModal}: ListCriptoProps) => {
   const {cryptosData, error} = useAppSelector(({crypto}) => crypto);
+  const [refreshing, setRefreshing] = useState(false);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -36,6 +37,15 @@ const ListCripto = ({setModal}: ListCriptoProps) => {
         renderItem={({item}) => <ItemCripto item={item} />}
         keyExtractor={({id}) => id}
         extraData={cryptosData}
+        showsVerticalScrollIndicator={false}
+        refreshing={refreshing}
+        onRefresh={async () => {
+          setRefreshing(true);
+          await cryptosData.map(async crypto => {
+            await dispatch(cryptoApiData({name: crypto.name, refresh: true}));
+          });
+          setRefreshing(false);
+        }}
         ListFooterComponent={
           <PressableAdd onPress={() => setModal(true)}>
             <PressableAddText>+ Add a Cryptocurrency</PressableAddText>

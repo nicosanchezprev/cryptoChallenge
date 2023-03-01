@@ -3,8 +3,12 @@ import type {PayloadAction} from '@reduxjs/toolkit';
 import axios from 'axios';
 import {API_URL, ICONS_URL} from '@env';
 import type {RootState} from '../store';
-import {initialStateProps, DataCriptoInfo} from '../../utils/interfaces';
-import {removeValue, storeData} from '../../utils/asyncFunctions';
+import {
+  initialStateProps,
+  DataCriptoInfo,
+  cryptoThunkProps,
+} from '../../utils/interfaces';
+import {refreshData, removeValue, storeData} from '../../utils/asyncFunctions';
 
 const initialState: initialStateProps = {
   cryptosData: [],
@@ -13,21 +17,31 @@ const initialState: initialStateProps = {
 
 export const cryptoApiData = createAsyncThunk(
   'crypto/api',
-  async (name: string) => {
+  async (reqInfo: cryptoThunkProps) => {
+    const {name, refresh} = reqInfo;
     const response = await axios.get(`${API_URL}/assets/${name}/metrics`);
     if (response.data.data) {
       const symbolLower = response.data.data.symbol.toLowerCase();
-      return {
-        id: response.data.data.id,
-        name: response.data.data.name,
-        symbol: response.data.data.symbol,
-        price: response.data.data.market_data.price_usd,
-        percentage:
-          response.data.data.market_data.percent_change_usd_last_24_hours,
-        img: {
-          uri: `${ICONS_URL}/${symbolLower}/50`,
-        },
-      };
+      if (refresh) {
+        return {
+          name: response.data.data.name,
+          price: response.data.data.market_data.price_usd,
+          percentage:
+            response.data.data.market_data.percent_change_usd_last_24_hours,
+        };
+      } else {
+        return {
+          id: response.data.data.id,
+          name: response.data.data.name,
+          symbol: response.data.data.symbol,
+          price: response.data.data.market_data.price_usd,
+          percentage:
+            response.data.data.market_data.percent_change_usd_last_24_hours,
+          img: {
+            uri: `${ICONS_URL}/${symbolLower}/50`,
+          },
+        };
+      }
     } else {
       return response.data.status;
     }
@@ -66,11 +80,24 @@ const cryptosSlice = createSlice({
       const check = state.cryptosData.find(
         elem => elem.name === action.payload.name,
       );
-      if (check === undefined) {
-        state.cryptosData.push(action.payload);
-        storeData(action.payload);
+      if (Object.keys(action.payload).length === 3) {
+        if (check) {
+          const indexEdit = state.cryptosData.findIndex(
+            crypto => crypto.name === check.name,
+          );
+
+          state.cryptosData[indexEdit].price = action.payload.price;
+          state.cryptosData[indexEdit].percentage = action.payload.percentage;
+
+          refreshData(action.payload);
+        }
       } else {
-        state.error = 'This cryptocurrency was already added!';
+        if (check === undefined) {
+          state.cryptosData.push(action.payload);
+          storeData(action.payload);
+        } else {
+          state.error = 'This cryptocurrency is already added!';
+        }
       }
     });
     builder.addCase(cryptoApiData.rejected, state => {
