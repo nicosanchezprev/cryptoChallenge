@@ -39,11 +39,13 @@ const ListCripto = ({setModal}: ListCriptoProps) => {
         extraData={cryptosData}
         showsVerticalScrollIndicator={false}
         refreshing={refreshing}
-        onRefresh={async () => {
+        onRefresh={() => {
           setRefreshing(true);
-          await cryptosData.map(async crypto => {
-            await dispatch(cryptoApiData({name: crypto.name, refresh: true}));
-          });
+          Promise.all(
+            cryptosData.map(crypto => {
+              dispatch(cryptoApiData({name: crypto.symbol, refresh: true}));
+            }),
+          );
           setRefreshing(false);
         }}
         ListFooterComponent={
