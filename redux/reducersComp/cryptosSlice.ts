@@ -19,10 +19,7 @@ export const cryptoApiData = createAsyncThunk(
   'crypto/api',
   async (reqInfo: cryptoThunkProps) => {
     const {name, refresh} = reqInfo;
-    console.log('Name: ', name);
-    console.log('Refresh: ', refresh);
     const response = await axios.get(`${API_URL}/assets/${name}/metrics`);
-    console.log('Response: ', response.data);
     if (response.data.data) {
       const symbolLower = response.data.data.symbol.toLowerCase();
       if (refresh) {
@@ -104,7 +101,6 @@ const cryptosSlice = createSlice({
       }
     });
     builder.addCase(cryptoApiData.rejected, (state, action) => {
-      console.log('ERROR: ', action.error);
       state.error = 'This cryptocurrency does not exist!';
     });
   },
