@@ -100,7 +100,7 @@ const cryptosSlice = createSlice({
         }
       }
     });
-    builder.addCase(cryptoApiData.rejected, (state, action) => {
+    builder.addCase(cryptoApiData.rejected, state => {
       state.error = 'This cryptocurrency does not exist!';
     });
   },
