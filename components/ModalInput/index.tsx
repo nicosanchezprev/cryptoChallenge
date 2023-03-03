@@ -21,7 +21,7 @@ const ModalInput = ({modal, setModal}: ModalInputProps) => {
   const dispatch = useAppDispatch();
 
   const addCryptocurrency = () => {
-    dispatch(cryptoApiData(inputValue)).then(() => {
+    dispatch(cryptoApiData({name: inputValue, refresh: false})).then(() => {
       setModal(false);
     });
   };
